@@ -3,6 +3,7 @@ const public_users = express.Router();
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const axios = require("axios").default;
 
 
 public_users.post("/register", (req,res) => {
@@ -65,5 +66,19 @@ public_users.get('/review/:isbn',function (req, res) {
   const isbn = req.params.isbn;
   res.send(books[isbn]["reviews"])
 });
+
+
+
+// TASK 10 - Get the book list available in the shop using promises
+public_users.get('/books',function (req, res) {
+    // res.send(JSON.stringify({books}, null, 4));
+
+    const get_books = new Promise((resolve, reject) => {
+        resolve(res.send(JSON.stringify({books}, null, 4)));
+      });
+
+      get_books.then((books_list) => console.log("The list of books available in the shop is", books_list));
+
+  });
 
 module.exports.general = public_users;
