@@ -37,7 +37,7 @@ regd_users.post("/login", (req,res) => {
     if (authenticatedUser(username,password)) {
       let accessToken = jwt.sign({
           data: password
-        }, 'access', { expiresIn: 60 * 3 });
+        }, 'access', { expiresIn: 60 * 20 });
         req.session.authorization = {
           accessToken, username
 
