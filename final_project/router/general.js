@@ -69,7 +69,7 @@ public_users.get('/review/:isbn',function (req, res) {
 
 
 
-// TASK 10 - Get the book list available in the shop using promises
+// TASK 10 - Get the book list available in the shop using Promises
 public_users.get('/books',function (req, res) {
 
     const get_books = new Promise((resolve, reject) => {
@@ -80,7 +80,7 @@ public_users.get('/books',function (req, res) {
 
   });
 
-// TASK 11 - Get book details based on ISBN
+// TASK 11 - Get book details based on ISBN using Promises
 public_users.get('/books/isbn/:isbn',function (req, res) {
     const get_books_isbn = new Promise((resolve, reject) => {
     const isbn = req.params.isbn;
@@ -89,15 +89,15 @@ public_users.get('/books/isbn/:isbn',function (req, res) {
         resolve(res.send(books[isbn]));
     }
         else {
-            reject(res.send('No ISBN found'));
+            reject(res.send('ISBN not found'));
         }
     });
     get_books_isbn.
         then(function(){
-            console.log("Promise is resolved");
+            console.log("Promise for Task 11 is resolved");
    }).
         catch(function () { 
-                console.log('No ISBN found');
+                console.log('ISBN not found');
   });
 
 });
@@ -105,7 +105,9 @@ public_users.get('/books/isbn/:isbn',function (req, res) {
 
 // TASK 12 - Get book details based on author
 public_users.get('/books/author/:author',function (req, res) {
+
     const get_books_author = new Promise((resolve, reject) => {
+
     let booksbyauthor = [];
     let isbns = Object.keys(books);
     isbns.forEach((isbn) => {
@@ -115,18 +117,19 @@ public_users.get('/books/author/:author',function (req, res) {
                             "reviews":books[isbn]["reviews"]});
       resolve(res.send(JSON.stringify({booksbyauthor}, null, 4)));
       }
-        else {
-            reject(res.send('The mentioned author doesn\t exist'));
-        }
+
+
     });
+    reject(res.send("The mentioned author does not exist "))
+        
     });
-    get_books_author.
-        then(function(){
+
+    get_books_author.then(function(){
             console.log("Promise is resolved");
-   }).
-        catch(function () { 
-                console.log('The mentioned author doesnt exist');
+   }).catch(function () { 
+                console.log('The mentioned author does not exist');
   });
+
   });
 
 
@@ -144,23 +147,19 @@ public_users.get('/books/title/:title',function (req, res) {
                             "reviews":books[isbn]["reviews"]});
     resolve(res.send(JSON.stringify({booksbytitle}, null, 4)));
       }
-
-           else {
-            reject(res.send('The mentioned book title doesnt exist'));
-        }
-
     });
+
+    reject(res.send("The mentioned title does not exist "))
 
        });
 
-    get_books_title.
-        then(function(){
+    get_books_title.then(function(){
             console.log("Promise is resolved");
-   }).
-        catch(function () { 
+   }).catch(function () { 
                 console.log('The mentioned book title doesnt exist');
   });
 
   });
+
 
 module.exports.general = public_users;
